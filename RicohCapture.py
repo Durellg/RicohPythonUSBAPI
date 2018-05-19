@@ -9,7 +9,7 @@ class RicohCapture:
 
     def __init__(self):
         self.getBatteryLevel()
-        self.getCurrentMode()
+        self.getCurrentStatus()
     def getBatteryLevel(self):
         subprocess.call("ptpcam --show-property=0x5001", shell=True)
     def checkCamInfo(self):
@@ -39,8 +39,8 @@ class RicohCapture:
         self.setProperty("0x5013", "0x8001");
     def setToVideoMode(self):
         self.setProperty("0x5013", "0x8002");
-    def getCurrentMode(self):
-        currentMode = subprocess.check_output("ptpcam -s 0xD808", shell=True)
+    def getCurrentStatus(self):
+        currentStatus = subprocess.check_output("ptpcam -s 0xD808", shell=True)
         modeNumber = int(filter(str.isdigit, currentMode))
         print status[modeNumber]
         
