@@ -31,6 +31,7 @@ class RicohCapture:
     def startVidCapture(self):
         subprocess.call("ptpcam -R 0x101c,0,0,1", shell=True)
     def stopVidCapture(self):
+        self.setToVideoMode()
         subprocess.call("ptpcam -R 0x1018,0xFFFFFFFF", shell=True)
     def setProperty(self, propertyNumber, value):
         process = "ptpcam --set-property=%s --val=%s" % (propertyNumber, value)
@@ -41,11 +42,13 @@ class RicohCapture:
         self.setProperty("0x5013", "0x8002");
     def getCurrentStatus(self):
         currentStatus = subprocess.check_output("ptpcam -s 0xD808", shell=True)
-        modeNumber = int(filter(str.isdigit, currentMode))
+        modeNumber = int(filter(str.isdigit, currentStatus))
         print status[modeNumber]
-        
-    def setCaptureTime(self):
-        pass
+    def recordForXTime(self, sec):
+        self.startVidCapture()
+        time.sleep(sec)
+        self.stopVidCapture()
+
         
 
 
