@@ -8,6 +8,7 @@ status[1] = "Mode is 1, Continuous shooting in progress"
 class RicohCapture:
 
     def __init__(self):
+        self.checkCamInfo()
         self.getBatteryLevel()
         self.getCurrentStatus()
     def getBatteryLevel(self):
@@ -37,7 +38,7 @@ class RicohCapture:
         process = "ptpcam --set-property=%s --val=%s" % (propertyNumber, value)
         subprocess.call(process, shell=True)
     def setToPictureMode(self):
-        self.setProperty("0x5013", "0x8001");
+        self.setProperty("0x5013", "0x0001");
     def setToVideoMode(self):
         self.setProperty("0x5013", "0x8002");
     def getCurrentStatus(self):
@@ -48,12 +49,15 @@ class RicohCapture:
         self.startVidCapture()
         time.sleep(sec)
         self.stopVidCapture()
+    def deleteAllFiles(self):
+        process = "ptpcam -D"
+        subprocess.call(process, shell=True)
 
         
 
 
 # ptpcam -s 0x5001 is the same as ptpcam --show-property=0x5001
-rc = RicohCapture()
+#rc = RicohCapture()
 #rc.listFile()
 #Src.getLastFile()
 
@@ -62,4 +66,4 @@ rc = RicohCapture()
 #time.sleep(10)
 
 #rc.stopVidCapture()
-#python >>> execfile('RicohCapture.py)
+#python >>> execfile('RicohCapture.py')
